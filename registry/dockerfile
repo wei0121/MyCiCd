@@ -1,0 +1,5 @@
+# Set nginx base image
+FROM registry
+
+
+EXPOSE 5000
