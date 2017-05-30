@@ -14,11 +14,12 @@
 # curl http://$(docker-machine ip dev):32769/app/foo
 
 docker build -t memo-nginx ./nginx
+docker build -t memo-jenkins ./jenkins
 # docker build -t memo-myHelloWorld ./myHelloWorld
 # docker build -t memo-registry ./registry
-# docker build -t memo-jenkins ./jenkins
 
-docker run -it -p 80:8080  -v `pwd`/logs:/var/log/nginx dockerfile/nginx
+docker run -it --name memo-nginx -v `pwd`/logs:/var/log/nginx memo-nginx
+docker run -it --name memo-jenkins -v $PWD/jenkins:/var/jenkins_home:z -t jenkins
 
 # docker run --name memo-nginx -p 80:8080 -d memo-nginx
 # docker run --name memo-myHelloWorld -p 80:8080 -d memo-nginx

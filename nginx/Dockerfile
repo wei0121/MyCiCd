@@ -1,8 +1,7 @@
 # Set nginx base image
-FROM nginx:alpine
+FROM nginx
 
-rm /etc/nginx/conf.d/*
-COPY nginx.conf /etc/nginx/conf.d/
+COPY nginx.conf /etc/nginx/nginx.conf:ro
 COPY index.html /usr/share/nginx/html
 
-EXPOSE 8080
+EXPOSE 8080:80
