@@ -1,8 +1,10 @@
 # Set nginx base image
 FROM nginx
 
-COPY nginx.conf /etc/nginx/nginx.conf:ro
-COPY index.html /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
 
-EXPOSE 8080:80
-EXPOSE 8484:8484
+COPY nginx.conf /etc/nginx/conf.d/nginx.conf
+COPY index.html /usr/share/nginx/index.html
+
+EXPOSE 8080
+EXPOSE 8484

@@ -20,7 +20,9 @@ docker build -t memo-nginx ./nginx
 # docker build -t memo-registry ./registry
 
 docker run -d --name memo-myhelloworld memo-myhelloworld
-docker run -d --name memo-nginx -v `pwd`/logs:/var/log/nginx --link memo-myhelloworld:memo-myhelloworld memo-nginx
+docker run -d --name memo-nginx -p 80:8080 -p 84:8484 \
+  --link memo-myhelloworld:memo-myhelloworld \
+  -v `pwd`/logs:/var/log/nginx memo-nginx
 # docker run -it --name memo-jenkins -v $PWD/jenkins:/var/jenkins_home:z -t jenkins
 
 # docker run --name memo-nginx -p 80:8080 -d memo-nginx

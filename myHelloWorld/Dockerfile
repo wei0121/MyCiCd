@@ -9,5 +9,4 @@ RUN go install memo/my-hello-world
 # Run the service
 ENTRYPOINT /go/bin/my-hello-world
 
-# Document that the service listens on port 8484.
 EXPOSE 8484
