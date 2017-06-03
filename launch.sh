@@ -17,23 +17,28 @@ docker build -t memo-data ./data
 docker build -t memo-myhelloworld ./myHelloWorld
 docker build -t memo-jenkins ./jenkins
 docker build -t memo-nginx ./nginx
-
-# docker build -t memo-registry ./registry
+docker build -t memo-registry ./registry
 
 docker run -d \
   -v `pwd`/docker-data/jenkins_home:/var/jenkins_home \
   -v `pwd`/docker-data/logs/jenkins:/var/log/jenkins \
   -v `pwd`/docker-data/logs/nginx:/var/log/nginx \
+  -v `pwd`/docker-data/registry:/var/lib/registry \
   --name memo-data memo-data
+
+  # -v `pwd`/registry/config.yml:/etc/docker/registry/config.yml \
 
 docker run -d --name memo-myhelloworld memo-myhelloworld
 
-docker run -d --name memo-jenkins --volumes-from=memo-data -t jenkins
+docker run -d --name memo-jenkins --volumes-from=memo-data jenkins
+
+docker run -d --name memo-registry --volumes-from=memo-data memo-registry
 
 docker run -d --name memo-nginx \
   -p 80:8888 -p 84:8484 -p 8080:8080 -p 50000:50000 \
   --link memo-myhelloworld:memo-myhelloworld \
   --link memo-jenkins:memo-jenkins \
+  --link memo-registry:memo-registry \
   --volumes-from=memo-data memo-nginx
 
 
