@@ -13,17 +13,28 @@
 # curl http://$(docker-machine ip dev):32769/app/
 # curl http://$(docker-machine ip dev):32769/app/foo
 
+docker build -t memo-data ./data
 docker build -t memo-myhelloworld ./myHelloWorld
 docker build -t memo-nginx ./nginx
 # docker build -t memo-jenkins ./jenkins
 
 # docker build -t memo-registry ./registry
 
+docker run -d \
+  -v `pwd`/docker-data/jenkins_home:/var/jenkins_home \
+  -v `pwd`/docker-data/logs/jenkins:/var/log/jenkins \
+  -v `pwd`/docker-data/logs/nginx:/var/log/nginx \
+  --name memo-data memo-data
+
 docker run -d --name memo-myhelloworld memo-myhelloworld
+
+docker run -it --name memo-jenkins --volumes-from=memo-data -t jenkins
+
 docker run -d --name memo-nginx -p 80:8080 -p 84:8484 \
   --link memo-myhelloworld:memo-myhelloworld \
-  -v `pwd`/logs:/var/log/nginx memo-nginx
-# docker run -it --name memo-jenkins -v $PWD/jenkins:/var/jenkins_home:z -t jenkins
+  --volumes-from=memo-data memo-nginx
+
+
 
 # docker run --name memo-nginx -p 80:8080 -d memo-nginx
 # docker run --name memo-registry -p 4567:4567 -d memo-registry
