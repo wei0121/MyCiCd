@@ -35,7 +35,7 @@ docker run -d --name memo-jenkins --volumes-from=memo-data jenkins
 docker run -d --name memo-registry --volumes-from=memo-data memo-registry
 
 docker run -d --name memo-nginx \
-  -p 80:8888 -p 84:8484 -p 8080:8080 -p 50000:50000 \
+  -p 58888:8888 -p 58484:8484 -p 58080:8080 -p 55000:50000 \
   --link memo-myhelloworld:memo-myhelloworld \
   --link memo-jenkins:memo-jenkins \
   --link memo-registry:memo-registry \
